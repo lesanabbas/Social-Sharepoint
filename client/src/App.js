@@ -1,11 +1,13 @@
-import "bootstrap/dist/css/bootstrap.min.css"
-import Login from "./Login"
-import Dashboard from "./Dashboard"
+import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import MainRouter from './MainRouter'
+import ScrollToTop from './ScrollToTop'
 
-const code = new URLSearchParams(window.location.search).get("code")
-
-function App() {
-  return code ? <Dashboard code={code} /> : <Login />
+const App = ()=> {
+  <BrowserRouter>
+    <ScrollToTop>
+      <MainRouter />
+    </ScrollToTop>
+  </BrowserRouter>
 }
 
-export default App
