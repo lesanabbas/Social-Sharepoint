@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-import { signup } from "../auth";
+import { signup } from "../auth/Index";
 
 import { Link } from 'react-router-dom';
 import Loading from '../loading/Loading';
 import SocialLogin from "./SocialLogin";
 
 class Signup extends Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
             name: "",
@@ -64,33 +64,33 @@ class Signup extends Component {
 
     clickSubmit = e => {
         e.preventDefault();
-        this.setState({loading: true})
+        this.setState({ loading: true })
         const { name, email, password } = this.state;
         const user = { name, email, password };
         // console.log(user);
         if (this.state.recaptcha) {
             signup(user)
-            .then(data => {
-                if(data.error){
-                    this.setState({error: data.error, loading: false});
-                } else {
-                    this.setState({
-                        name: "",
-                        email: "",
-                        password: "",
-                        error: "",
-                        open: true,
-                        loading: false
-                    });
-                }
-            });
+                .then(data => {
+                    if (data.error) {
+                        this.setState({ error: data.error, loading: false });
+                    } else {
+                        this.setState({
+                            name: "",
+                            email: "",
+                            password: "",
+                            error: "",
+                            open: true,
+                            loading: false
+                        });
+                    }
+                });
         } else {
             this.setState({
                 loading: false,
                 error: "What day is today? Please write a correct answer!"
             });
         }
-        
+
     };
 
 
@@ -98,32 +98,32 @@ class Signup extends Component {
         <form style={{ display: loading ? "none" : "" }}>
             <div className="form-group">
                 <label className="text-muted">Name</label>
-                <input 
-                    onChange={this.handleChange} 
-                    name="name" 
-                    type="text" 
-                    className="form-control" 
+                <input
+                    onChange={this.handleChange}
+                    name="name"
+                    type="text"
+                    className="form-control"
                     value={name}
                 />
             </div>
             <div className="form-group">
                 <label className="text-muted">Email</label>
-                <input 
-                    onChange={this.handleChange} 
-                    type="email" 
-                    name="email" 
-                    className="form-control" 
-                    value={email} 
+                <input
+                    onChange={this.handleChange}
+                    type="email"
+                    name="email"
+                    className="form-control"
+                    value={email}
                 />
             </div>
             <div className="form-group">
                 <label className="text-muted">Password</label>
-                <input 
-                    onChange={this.handleChange} 
-                    type="password" 
-                    name="password" 
-                    className="form-control" 
-                    value={password} 
+                <input
+                    onChange={this.handleChange}
+                    type="password"
+                    name="password"
+                    className="form-control"
+                    value={password}
                 />
             </div>
             <div className="form-group">
@@ -141,14 +141,14 @@ class Signup extends Component {
     );
 
 
-    render(){
+    render() {
         const { name, email, password, error, open, loading, recaptcha } = this.state;
         return (
             <div className="container">
                 <h2 className="mt-5 mb-5">Signup</h2>
                 <SocialLogin for="signup" />
                 <hr />
-                <p className="text-center text-muted" style={{fontSize: "24px"}} >OR</p>
+                <p className="text-center text-muted" style={{ fontSize: "24px" }} >OR</p>
                 <hr />
                 <hr />
                 <div className="alert alert-danger" style={{ display: error ? "" : "none" }}>
@@ -158,7 +158,7 @@ class Signup extends Component {
                     New account is successfully created. Please <Link to='/signin'>Sign In</Link>.
                 </div>
                 {this.signupForm(name, email, password, loading, recaptcha)}
-                { loading ? (
+                {loading ? (
                     <Loading />
                 ) : (
                     ""

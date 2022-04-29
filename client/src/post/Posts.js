@@ -102,8 +102,8 @@ class Posts extends Component {
                                     <p className="card-text">{post.body}</p>
                                     <Link
                                         style={{
-                                            background: "#56ccf2",
-                                            background: "-webkit-linear-gradient(to left, #56ccf2, #2f80ed)",
+                                            // background: "#56ccf2",
+                                            // background: "-webkit-linear-gradient(to left, #56ccf2, #2f80ed)",
                                             background: "linear-gradient(to left, #56ccf2, #2f80ed)",
                                             borderRadius: "20px",
                                             padding: "10px"

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { findPeople, follow } from './apiUser';
 import DefaultProfile from '../images/avatar.jpg';
 import { Link } from 'react-router-dom';
-import { isAuthenticated } from '../auth/index';
+import { isAuthenticated } from '../auth/Index';
 
 import Loading from '../loading/Loading';
 
@@ -78,8 +78,8 @@ class FindPeople extends Component {
                             View Profile
                         </Link>
                         <button style={{ 
-                                        background: "#56ccf2", 
-                                        background: "-webkit-linear-gradient(to left, #56ccf2, #2f80ed)",
+                                        // background: "#46ccf2", 
+                                        // background: "-webkit-linear-gradient(to left, #56ccf2, #2f80ed)",
                                         background: "linear-gradient(to left, #56ccf2, #2f80ed)",
                                         padding: "10px"
                                     }} onClick={() => this.clickFollow(user, i)} className="btn btn-raised btn-success pull-right">
@@ -90,7 +90,7 @@ class FindPeople extends Component {
             ))}
         </div>
 
-            );
+    );
 
     render(){
         const {users, open, followMessage, loading} = this.state;

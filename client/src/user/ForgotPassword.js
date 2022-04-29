@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { forgotPassword } from "../auth";
+import { forgotPassword } from "../auth/Index";
 
 class ForgotPassword extends Component {
     state = {
@@ -55,7 +55,7 @@ class ForgotPassword extends Component {
                     </div>
                     <button
                         onClick={this.forgotPasswordFunction}
-                        className="btn btn-raised btn-primary"
+                        className="btn btn-raised btn-dark"
                     >
                         Send Password Rest Link
                     </button>

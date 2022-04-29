@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { resetPassword } from "../auth";
+import { resetPassword } from "../auth/Index";
 
 class ResetPassword extends Component {
     constructor(props) {
@@ -61,7 +61,7 @@ class ResetPassword extends Component {
                     </div>
                     <button
                         onClick={this.resetPassword}
-                        className="btn btn-raised btn-primary"
+                        className="btn btn-raised btn-dark"
                     >
                         Reset Password
                     </button>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import io from "socket.io-client";
 
 import { read, getChats, getChatList } from './apiUser';
-import { isAuthenticated } from "../auth";
+import { isAuthenticated } from "../auth/Index";
 import ScrollToBottom from 'react-scroll-to-bottom';
 
 import '../css/Chat.css'
@@ -133,9 +133,9 @@ class Chat extends Component {
             return <li key={i} className="chat-right">
                 <div className="chat-hour">
                     { DisplayTime12Hour(new Date(chat.time)) }
-                    {/* <br /> */}
-                    {/* {new Date(chat.time).getDate()} / {new Date(chat.time).getMonth()+1} / {new Date(chat.time).getFullYear()} */}
-                    <span className="fa fa-check-circle ml-1"></span>
+                    <br />
+                    {new Date(chat.time).getDate()} / {new Date(chat.time).getMonth()+1} / {new Date(chat.time).getFullYear()}
+                    <span className="fa fa-check-circle ml-5"></span>
                 </div>
                 <div className="chat-text">
                     {chat.message}
@@ -152,8 +152,8 @@ class Chat extends Component {
                 </div>
                 <div className="chat-hour">
                     { DisplayTime12Hour(new Date(chat.time)) }
-                    {/* <br /> */}
-                    {/* {new Date(chat.time).getDate()} / {new Date(chat.time).getMonth()+1} / {new Date(chat.time).getFullYear()} */}
+                    <br />
+                    {new Date(chat.time).getDate()} / {new Date(chat.time).getMonth()+1} / {new Date(chat.time).getFullYear()}
                     <span className="fa fa-check-circle ml-1"></span>
                 </div>
             </li>
@@ -249,7 +249,7 @@ class Chat extends Component {
                                                                 })
                                                             }
                                                         />
-                                                        <button type="button" onClick={() => this.setState({ showPicker: !showPicker })} className="btn btn-sm btn-primary">
+                                                        <button type="button" onClick={() => this.setState({ showPicker: !showPicker })} className="btn btn-sm">
                                                             <i style={{fontSize: "20px"}} className="far fa-smile"></i>
                                                         </button>
                                                     </div>
