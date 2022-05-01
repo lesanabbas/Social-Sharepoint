@@ -1,11 +1,12 @@
-const _ = require('loadash')
-// const { sendEmail } = require('../helpers')
+const _ = require("lodash");
+const { sendEmail } = require("../helpers");
 
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const expressJwt = require('express-jwt')
+const expressJwt = require('express-jwt');
 
-const User = require('../models/user')
+const User = require('../models/user');
+
 
 exports.signup = async (req,res) => {
 
@@ -25,7 +26,7 @@ exports.signup = async (req,res) => {
     res.status(200).json({ message: "Signup success! Please Login. " });
 };
 
-exports.signin = (req, res) => {
+exports.signin = (req,res) => {
 
     // find user by email
     const {email,password,notificationToken} = req.body;
@@ -54,26 +55,28 @@ exports.signin = (req, res) => {
             })
         }
         
+        //generate token with user id and secret 
         const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET );
-
+        //persist the token as 't' in cookie with expiry date
         res.cookie("t", token, { expire: new Date() + 9999 });
-
+        //return response with user and token to frontend client
         const { _id, name, email } = user;
         return res.json({ token, user: { _id, email, name }});
     });
 }
 
-exports.signout = (req, res) => {
-    res.clearCookie('t')
-    return res.status(200).json({ message: "signout success! "})
+exports.signout = (req,res) => {
+    res.clearCookie("t")
+    return res.status(200).json({ message: "signout success! " })
 }
 
-exports.requireSignin = expressJwt({
 
+exports.requireSignin = expressJwt({
+    // if the token is valid, express jwt appends the verified users id
+    // in an auth key to request object
     secret: process.env.JWT_SECRET,
     userProperty: "auth"
-
-})
+});
 
 
 exports.forgotPassword = (req, res) => {
@@ -125,7 +128,6 @@ exports.forgotPassword = (req, res) => {
 };
 
 
-
 exports.resetPassword = (req, res) => {
     const { resetPasswordLink, newPassword } = req.body;
 
@@ -156,7 +158,6 @@ exports.resetPassword = (req, res) => {
         });
     });
 };
-
 
 exports.socialLogin = (req, res) => {
     // try signup by finding user with req.email

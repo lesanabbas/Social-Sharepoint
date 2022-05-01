@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
 import { create } from "./apiPost";
-import { isAuthenticated } from "../auth";
+import { isAuthenticated } from "../auth/index";
 import Loading from '../loading/Loading';
+// import newPostcss from '../css/newPost'
 import { Redirect } from 'react-router-dom';
 
 
@@ -94,7 +95,9 @@ class NewPost extends Component {
                     name="photo"
                     type="file"
                     accept="image/*"
-                    className="form-control"
+                    className="form-control file-custom"
+                    id="file"
+                    aria-label="File browser example"
                 />
             </div>
             <div className="form-group">
@@ -118,7 +121,7 @@ class NewPost extends Component {
                 />
             </div>
 
-            <button onClick={this.clickSubmit} className="btn btn-raised btn-primary">Create Post</button>
+            <button onClick={this.clickSubmit} className="btn btn-raised btn-dark">Create Post</button>
         </form>
     );
 

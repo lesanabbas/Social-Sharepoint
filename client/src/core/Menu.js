@@ -1,30 +1,35 @@
-import React from "react"
-import { Link, withRouter } from 'react-router-dom'
-import { signout, isAuthenticated } from '../auth/index'
+import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
+
+import { signout, isAuthenticated } from "../auth/index";
+
 
 const isActive = (history, path) => {
-    if(history.location.pathname === path) {
-        return { borderBottom: "4px soild #ff9900", color: "while" }
+    if (history.location.pathname === path) {
+        return { color: "#2b90d9"}
     } else {
-        return { color: "#ffffff"}
+        return { color: "#ffffff" }
     }
 }
 
-const Menu = (props) => {
+
+
+const Menu = (props) => (
     <nav className="navbar navbar-expand-lg navbar-dark"
         style={{
-            background: "#007991",
+            background: "#23272a",
             paddingTop: "15px",
             paddingBottom: "0",
             marginBottom: "50px"
 
         }}
     >
-        <a className="navbar-brand" style={{ color: "white", fontFamily: 'Courgette, cursive' }} href="/">
-            <i className="fas fa-camera-retro mr-2"></i>SocialApp
+        <a className="navbar-brand" style={{ color: "white", fontFamily: 'Courgette, Comic Sans MS', fontSize: '30px' }} href="/">
+            Social <span style={{ color: "#2b90d9" }}>Sharepoint</span>
         </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon">
+            </span>
         </button>
         <div className="collapse navbar-collapse " id="navbarSupportedContent" >
             <ul className="navbar-nav ml-auto">
@@ -35,11 +40,11 @@ const Menu = (props) => {
                 </li>
                 {!isAuthenticated() && (
                     <>
-                        {/* <li className="nav-item">
+                        <li className="nav-item">
                         <Link className="nav-link" style={isActive(props.history, "/users")} to='/users' >
                         <i className="fas fa-users mr-1"></i>Users
                         </Link>
-                    </li> */}
+                    </li>
                         <li className="nav-item">
                             <Link className="nav-link" style={isActive(props.history, "/signin")} to='/signin' >
                                 <i className="fas fa-sign-in-alt mr-1"></i>Sign In
@@ -99,32 +104,33 @@ const Menu = (props) => {
                                 </span>
                             </div>
                         </div>
-                        {/* <li className="nav-item">
-                        <Link
-                            className="nav-link"
-                            to={`/user/${isAuthenticated().user._id}`}
-                            style={isActive(props.history, `/user/${isAuthenticated().user._id}`)}
-                        >
-                            {`${isAuthenticated().user.name}'s profile`}
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <span
-                            className="nav-link"
-                            style={
-                                (isActive(props.history, "/signup"),
-                                { cursor: "pointer",color: "#fff" })
-                            }
-                            onClick={() => signout(() => props.history.push('/'))}
-                        >
-                            Sign Out
-                        </span>
-                    </li> */}
+                        <li className="nav-item">
+                            <Link
+                                className="nav-link"
+                                to={`/user/${isAuthenticated().user._id}`}
+                                style={isActive(props.history, `/user/${isAuthenticated().user._id}`)}
+                            >
+                                {`${isAuthenticated().user.name}'s profile`}
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <span
+                                className="nav-link"
+                                style={
+                                    (isActive(props.history, "/signup"),
+                                        { cursor: "pointer", color: "#fff" })
+                                }
+                                onClick={() => signout(() => props.history.push('/'))}
+                            >
+                                Sign Out
+                            </span>
+                        </li>
                     </>
                 )}
             </ul>
         </div>
     </nav>
-}
+
+);
 
 export default withRouter(Menu);

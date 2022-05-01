@@ -1,15 +1,15 @@
-import React, { Component } from "react"
+import React, { Component } from 'react';
 
-import { list, countTotalPosts } from './apiPost'
-import { Link } from 'react-router-dom'
-import Loading from '../loading/Loading'
-import DefaultProfile from '../images/avatar.png'
-import { timeDifference } from './timeDifference'
-import InfiniteScroll from 'react-infinite-scroll-component'
+import { list, countTotalPosts } from './apiPost';
+import { Link } from 'react-router-dom';
+import Loading from '../loading/Loading';
+import DefaultProfile from '../images/avatar.jpg'
+import { timeDifference } from './timeDifference';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 class Posts extends Component {
     constructor() {
-        super()
+        super();
         this.state = {
             posts: [],
             skip: 0,
@@ -18,17 +18,14 @@ class Posts extends Component {
         }
     }
 
-
-    fetechData = async () => {
+    fetchData = async () => {
         if (this.state.posts.length >= this.state.count) {
-            this.setState({
-                hasMore: false
-            })
+            this.setState({ hasMore: false });
             return;
         }
         const data = await list(this.state.skip)
-
-        if(data.error) {
+        
+        if (data.error) {
             console.log(data.error)
         } else {
             var joinedArray = this.state.posts.concat(data);
@@ -38,14 +35,16 @@ class Posts extends Component {
 
     async componentDidMount() {
         const count = await countTotalPosts()
-        this.setState({ count: count.data })
-        this.fetechData()
+        this.setState({count: count.data})
+        this.fetchData()
     }
 
     updateSkip = () => {
         this.setState({ skip: this.state.posts.length })
     }
-    
+
+
+
     renderPosts = (posts) => {
         return (
             <div className="row">
@@ -103,8 +102,8 @@ class Posts extends Component {
                                     <p className="card-text">{post.body}</p>
                                     <Link
                                         style={{
-                                            background: "#56ccf2",
-                                            background: "-webkit-linear-gradient(to left, #56ccf2, #2f80ed)",
+                                            // background: "#56ccf2",
+                                            // background: "-webkit-linear-gradient(to left, #56ccf2, #2f80ed)",
                                             background: "linear-gradient(to left, #56ccf2, #2f80ed)",
                                             borderRadius: "20px",
                                             padding: "10px"
@@ -122,18 +121,18 @@ class Posts extends Component {
                 </InfiniteScroll>
             </div>
         );
-    }
+    };
 
-    render() {
-        const { posts } = this.state;
-        return (
-            <div className="container">
-                {!posts.length ? (
-                    <Loading />
-                ) : (
-                    this.renderPosts(posts)
-                )}
-            </div>
+    render(){
+        const {posts} = this.state;
+        return(
+                <div className="container">
+                    {!posts.length ? (
+                        <Loading />
+                    ) : (
+                            this.renderPosts(posts)
+                        )}
+                </div>
         );
     }
 }

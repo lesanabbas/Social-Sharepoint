@@ -1,9 +1,9 @@
-import { type } from "@testing-library/user-event/dist/type";
+
 
 export const signup = (user) => {
     return fetch(`${process.env.REACT_APP_API_URL}/signup`, {
         method: "POST",
-        header: {
+        headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
@@ -12,9 +12,7 @@ export const signup = (user) => {
     .then(res => {
         return res.json()
     })
-    .catch(err => {
-        console.log(err)
-    });
+    .catch(err => console.log(err));
 };
 
 export const signin = (user) => {
@@ -22,70 +20,67 @@ export const signin = (user) => {
         method: "POST",
         headers: {
             Accept: "application/json",
-            "Content-Type": "application.json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(user)
     })
     .then(res => {
         return res.json()
     })
-    .catch(err => {
-        console.log(err)
-    });
+    .catch(err => console.log(err));
 };
 
+
 export const authenticate = (jwt, callback) => {
-    if(typeof window !== "undefined") {
+    if(typeof window !== "undefined"){
         localStorage.setItem("jwt", JSON.stringify(jwt))
         callback();
     }
 };
 
 export const signout = (callback) => {
-    if(typeof window !== "undefined") {
+    // if we have window then we can access the localstorage
+    if (typeof window !== "undefined") {
         localStorage.removeItem("jwt");
     }
     callback();
     return fetch(`${process.env.REACT_APP_API_URL}/signout`, {
         method: "GET"
     })
-    .then(res => {
-        console.log("signout", res);
-        return res.json();
-    })
-    .catch(err => {
-        console.log(err)
-    });
+        .then(response => {
+            console.log("signout ", response)
+            return response.json();
+        })
+        .catch(err => console.log(err));
 };
 
 export const isAuthenticated = () => {
-    if(typeof window == "undefined") {
+    if (typeof window == "undefined") {
         return false;
     }
-    if(localStorage.getItem("jwt")) {
-        return JSON.parse(localStorage.getItem('jwt'))
+    if (localStorage.getItem("jwt")) {
+        return JSON.parse(localStorage.getItem("jwt"));
     } else {
         return false;
     }
 };
 
+
 export const forgotPassword = email => {
     console.log("email: ", email);
     return fetch(`${process.env.REACT_APP_API_URL}/forgot-password/`, {
         method: "PUT",
-        header: {
+        headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ email })
     })
-    .then(res => {
-        console.log("forgot password response: ", res);
-        return res.json();
-    })
-    .catch(err => {
-        console.log(err);
-    });
+        .then(response => {
+            console.log("forgot password response: ", response);
+            return response.json();
+        })
+        .catch(err => console.log(err));
 };
 
 export const resetPassword = resetInfo => {
@@ -97,14 +92,13 @@ export const resetPassword = resetInfo => {
         },
         body: JSON.stringify(resetInfo)
     })
-    .then(res => {
-        console.log("Reset Password response: ",res);
-        return res.json();
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        .then(response => {
+            console.log("forgot password response: ", response);
+            return response.json();
+        })
+        .catch(err => console.log(err));
 };
+
 
 export const socialLogin = user => {
     return fetch(`${process.env.REACT_APP_API_URL}/social-login/`, {
@@ -115,11 +109,9 @@ export const socialLogin = user => {
         },
         body: JSON.stringify(user)
     })
-    .then(res => {
-        console.log("signin response: ", res);
-        return res.json();
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        .then(response => {
+            console.log("signin response: ", response);
+            return response.json();
+        })
+        .catch(err => console.log(err));
 };

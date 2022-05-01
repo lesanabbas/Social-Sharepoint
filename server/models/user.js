@@ -1,7 +1,8 @@
-const mongoose = require('mongoose')
-const { v1: uuidv1 } = require('uuid')
-const crypto = require('crypto')
-const { QbjectId } = mongoose.Schema;
+const mongoose = require('mongoose');
+const { v1: uuidv1 } = require('uuid');
+const crypto = require('crypto');
+const { ObjectId } = mongoose.Schema;
+
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -18,23 +19,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    salt: {
-        type: String
-    },
+    salt: String,
     created: {
         type: Date,
         default: Date.now
     },
-    updated: {
-        type: Date
-    },
+    updated: Date,
     photo: {
         data: Buffer,
         contentType: String
     },
     about: {
         type: String,
-        trim: true
+        trim: true  
     },
     notificationToken: {
         type: String
@@ -43,46 +40,51 @@ const userSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "User"
     }],
-
     followers: [{
         type: ObjectId,
         ref: "User"
     }],
-
     resetPasswordLink: {
         data: String,
         default: ""
     }
+
 });
 
-userSchema.virtual('password').set((password) => {
+//virtual field
+userSchema.virtual('password')
+.set(function(password){
+    //create temp var _password
     this._password = password;
+    //generate a timestamp
     this.salt = uuidv1();
-
+    // encrypt password
     this.hashed_password = this.encryptPassword(password);
 })
-.get(() => {
+.get(function(){
     return this._password;
 })
 
 
+//methods
+userSchema.methods = {
 
-userSchema.method = {
-
-    authenticate: (plainText) => {
-        return this.encryptPassword(plainText) == this.hashed_password;
+    authenticate: function(plainText){
+        return this.encryptPassword(plainText) === this.hashed_password;
     },
 
-    encryptPassword: (password) => {
+    encryptPassword: function(password){
         if(!password) return "";
-        try {
-            return crypto.createHmac('sha1', this.salt)
+        try{
+            return crypto.createHmac('sha1',this.salt)
                     .update(password)
                     .digest('hex')
-        } catch(error) {
+        } catch(err){
             return ""
         }
     }
 }
+
+
 
 module.exports = mongoose.model("User", userSchema);

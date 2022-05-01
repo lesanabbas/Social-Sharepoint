@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { forgotPassword } from "../auth";
+import { forgotPassword } from "../auth/index";
 
 class ForgotPassword extends Component {
     state = {
@@ -10,21 +10,20 @@ class ForgotPassword extends Component {
 
     forgotPasswordFunction = e => {
         e.preventDefault();
-        this.setState({ message: "", error: ""});
-        forgotPassword(this.state.email)
-        .then(data => {
-            if(data.error) {
+        this.setState({ message: "", error: "" });
+        forgotPassword(this.state.email).then(data => {
+            if (data.error) {
+                console.log(data.error);
                 this.setState({ error: data.error });
             } else {
+                console.log(data.message);
                 this.setState({ message: data.message });
             }
         });
     };
 
-
     render() {
-        const  { message, error } = this.state;
-        
+        const { message, error } = this.state;
         return (
             <div className="container">
                 <h2 className="mt-5 mb-5">Ask for Password Reset</h2>
@@ -56,13 +55,13 @@ class ForgotPassword extends Component {
                     </div>
                     <button
                         onClick={this.forgotPasswordFunction}
-                        className="btn btn-raised btn-primary"
+                        className="btn btn-raised btn-dark"
                     >
                         Send Password Rest Link
                     </button>
                 </form>
             </div>
-        )
+        );
     }
 }
 

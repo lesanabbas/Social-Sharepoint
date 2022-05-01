@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { comment , uncomment } from './apiPost';
-import { isAuthenticated } from '../auth';
+import { comment, uncomment } from './apiPost';
+import { isAuthenticated } from '../auth/index';
 import { Link } from 'react-router-dom';
-import DefaultProfile from '../images/avatar.png';
-import Loading from '../loading/Loading'
+import DefaultProfile from '../images/avatar.jpg';
 import Picker from 'emoji-picker-react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-
 import {timeDifference} from './timeDifference';
+
+import Loading from '../loading/Loading';
 
 import '../css/Comment.css';
 
@@ -25,20 +25,20 @@ class Comment extends Component {
     }
 
     handleChange = e => {
-        this.setState({ text: e.target.value, error: ""})
+        this.setState({ text: e.target.value, error: "" })
     };
 
     isValid = () => {
         const { text } = this.state;
-        if(!text.length > 0) {
+        if (!text.length > 0) {
             this.setState({
                 error: "Comment cannot be empty"
             })
             return false
         }
-        if(text.length > 150) {
+        if (text.length > 150) {
             this.setState({
-                error: "Comment cannot be more then 150 characters long"
+                error: "Comment cannot be more than 150 characters long"
             })
             return false
         }
@@ -47,14 +47,14 @@ class Comment extends Component {
 
     addComment = e => {
         e.preventDefault();
-        if(!isAuthenticated()) {
+        if (!isAuthenticated()) {
             this.setState({
                 error: "Please Signin first to leave a comment"
-            })
+            });
             return false
         }
-        if(this.isValid()) {
-            this.setState({ loading: true})
+        if (this.isValid()) {
+            this.setState({loading: true})
             const userId = isAuthenticated().user._id;
             const token = isAuthenticated().token;
             const postId = this.props.postId;
@@ -62,7 +62,7 @@ class Comment extends Component {
 
             comment(userId, token, postId, commentText)
                 .then(data => {
-                    if(data.error) {
+                    if (data.error) {
                         console.log(data.error)
                     } else {
                         this.setState({
@@ -70,10 +70,10 @@ class Comment extends Component {
                             showPicker: false,
                             loading: false
                         });
-
-                        this.props.updateComment(data.comment);
+                        // send the updated/fresh list of comments to the parent component
+                        this.props.updateComments(data.comments);
                     }
-                })
+                });
         }
     };
 
@@ -90,7 +90,7 @@ class Comment extends Component {
                 } else {
                     this.setState({loading: false})
                     // send the updated/fresh list of comments to the parent component
-                    this.props.updateComment(data.comment);
+                    this.props.updateComments(data.comments);
                 }
             });
     };
@@ -120,19 +120,18 @@ class Comment extends Component {
         })
     }
 
-
     render() {
         const { text, error, showPicker, loading } = this.state;
-        const { comment } = this.props;
+        const { comments } = this.props;
 
-        return (
+        return(
             <diV>
                 { loading ? (
                     <Loading />
                 ) : (
                     <div>
                     <h4 className="mt-5 mb-5">
-                        Leave a comment <span className="pull-right">{comment.length} comments</span>
+                        Leave a comment <span className="pull-right">{comments.length} comments</span>
                     </h4>
                     <div className="panel-body">
                         <form onSubmit={this.addComment}>
@@ -160,7 +159,7 @@ class Comment extends Component {
                         <div className="clearfix"></div>
                         <hr />
                             <ul className="media-list">
-                            {comment.reverse().map((comment, i) => (
+                            {comments.reverse().map((comment, i) => (
                                 <li key={i} className="media">
                                     <Link to={`/user/${comment.postedBy._id}`} >
                                         <img 

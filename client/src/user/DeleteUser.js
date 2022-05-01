@@ -1,13 +1,14 @@
-import React, { Component} from "react"
-import { isAuthenticated } from '../auth/index'
-import { remove } from './apiUser'
-import { signout } from "../auth/index"
+import React, { Component } from 'react';
+import { isAuthenticated } from '../auth/index';
+import { remove } from './apiUser';
+import { signout } from '../auth/index';
+import { Redirect } from 'react-router-dom';
 
-import { Redirect } from 'react-router-dom'
-import { confirmAlert } from 'react-confirm-alert'
+import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class DeleteUser extends Component {
+
     state = {
         redirect: false
     }
@@ -17,23 +18,23 @@ class DeleteUser extends Component {
         const userId = this.props.userId;
         remove(userId, token)
         .then(data => {
-            if(data.error) {
+            if(data.error){
                 console.log(data.error)
             } else {
-                signout(() => console.log("User is delete"))
-                this.setState({ redirect: true})
+                signout(() => console.log("User is deleted"));
+                this.setState({redirect: true});
             }
         });
     };
 
     deleteConfirmed = () => {
         confirmAlert({
-            title: "Alert you sure ?",
-            message: "you want to delete this account",
-            button: [
+            title: 'Are you sure ?',
+            message: 'you want to delete this account.',
+            buttons: [
                 {
                     label: 'Yes',
-                    onclick: () => this.deleteAccount()
+                    onClick: () => this.deleteAccount()
                 },
                 {
                     label: 'No',
@@ -43,14 +44,14 @@ class DeleteUser extends Component {
     }
 
     render() {
-        if(this.state.redirect) {
+        if(this.state.redirect){
             return <Redirect to='/'></Redirect>
-        } 
+        }
         return (
             <button onClick={this.deleteConfirmed} className="btn btn-sm btn-raised btn-danger">
                 Delete Profile
             </button>
-        )
+        );
     }
 }
 

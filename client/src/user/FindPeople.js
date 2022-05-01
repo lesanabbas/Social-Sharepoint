@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import { findPeople, follow } from './apiUser';
-import DefaultProfile from '../images/avatar.png';
+import DefaultProfile from '../images/avatar.jpg';
 import { Link } from 'react-router-dom';
-import { isAuthenticated } from '../auth';
+import { isAuthenticated } from '../auth/index';
 
 import Loading from '../loading/Loading';
 
@@ -34,26 +34,26 @@ class FindPeople extends Component {
     }
 
     clickFollow = (user, i) => {
-        this.setState({ loading: true})
+        this.setState({loading: true})
         const userId = isAuthenticated().user._id;
         const token = isAuthenticated().token;
 
         follow(userId, token, user._id)
             .then(data => {
-                if(data.error) {
+                if (data.error) {
                     this.setState({ error: data.error })
                 } else {
-                    let tofollow = this.state.users;
-                    tofollow.splice(i, 1);
+                    let toFollow = this.state.users;
+                    toFollow.splice(i, 1);
                     this.setState({
-                        users: tofollow,
+                        users: toFollow,
                         open: true,
                         followMessage: `Following ${user.name}`,
                         loading: false
                     })
-                } 
+                }
             })
-    }
+    };
 
     renderUsers = (users) => (
         <div className="row">
@@ -78,8 +78,8 @@ class FindPeople extends Component {
                             View Profile
                         </Link>
                         <button style={{ 
-                                        background: "#56ccf2", 
-                                        background: "-webkit-linear-gradient(to left, #56ccf2, #2f80ed)",
+                                        // background: "#46ccf2", 
+                                        // background: "-webkit-linear-gradient(to left, #56ccf2, #2f80ed)",
                                         background: "linear-gradient(to left, #56ccf2, #2f80ed)",
                                         padding: "10px"
                                     }} onClick={() => this.clickFollow(user, i)} className="btn btn-raised btn-success pull-right">
@@ -92,20 +92,20 @@ class FindPeople extends Component {
 
     );
 
-    render() {
-        const {user, open, followMessage, loading} = this.state;
-        return (
-            <div className='container'>
-                <h2 className='mt-5 mb-5'>Find People</h2>
+    render(){
+        const {users, open, followMessage, loading} = this.state;
+        return(
+            <div className="container">
+                <h2 className="mt-5 mb-5">Find People</h2>
                 {open && (
-                    <div className='alert alert-success text-center'>
+                    <div className="alert alert-success text-center">
                         {followMessage}
                     </div>
                 )}
                 {loading ? (
                     <Loading />
                 ) : (
-                    this.renderUsers(user)
+                    this.renderUsers(users)
                 )}
             </div>
         );

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { resetPassword } from "../auth";
+import { resetPassword } from "../auth/index";
 
 class ResetPassword extends Component {
     constructor(props) {
@@ -13,18 +13,18 @@ class ResetPassword extends Component {
 
     resetPassword = e => {
         e.preventDefault();
-        this.setState({ message: "", error: ""});
+        this.setState({ message: "", error: "" });
 
         resetPassword({
             newPassword: this.state.newPassword,
-            resetPassword: this.props.match.params.resetPasswordToken
+            resetPasswordLink: this.props.match.params.resetPasswordToken
         }).then(data => {
-            if(data.error) {
+            if (data.error) {
                 console.log(data.error);
                 this.setState({ error: data.error });
             } else {
                 console.log(data.message);
-                this.setState({ message: data.message, newPassword: ""});
+                this.setState({ message: data.message, newPassword: "" });
             }
         });
     };
@@ -61,13 +61,13 @@ class ResetPassword extends Component {
                     </div>
                     <button
                         onClick={this.resetPassword}
-                        className="btn btn-raised btn-primary"
+                        className="btn btn-raised btn-dark"
                     >
                         Reset Password
                     </button>
                 </form>
             </div>
-        )
+        );
     }
 }
 

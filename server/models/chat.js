@@ -4,7 +4,7 @@ const { ObjectId } = mongoose.Schema;
 const chatSchema = new mongoose.Schema({
     message: {
         type: String,
-        required: true,
+        required: true
     },
     reciever: {
         type: Object,

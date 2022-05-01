@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import GoogleLogin from "react-google-login";
-import { socialLogin, authenticate } from "../auth";
+import { socialLogin, authenticate } from "../auth/index";
 
 class SocialLogin extends Component {
     constructor() {
@@ -41,7 +41,7 @@ class SocialLogin extends Component {
         if(this.props.for === "signup"){
             return (
                 <GoogleLogin
-                    clientId="109098577332-pdeuvr6jupqu74rqq1u66vej1hno9sbl.apps.googleusercontent.com"
+                    clientId="720050967435-unt2vh1h9hgeiqbtd6mi8msfd38l0kmr.apps.googleusercontent.com"
                     buttonText="Signup with Google"
                     onSuccess={this.responseGoogle}
                     onFailure={this.responseGoogle}
@@ -50,7 +50,7 @@ class SocialLogin extends Component {
         } else {
             return (
                 <GoogleLogin
-                    clientId="109098577332-pdeuvr6jupqu74rqq1u66vej1hno9sbl.apps.googleusercontent.com"
+                    clientId="720050967435-unt2vh1h9hgeiqbtd6mi8msfd38l0kmr.apps.googleusercontent.com"
                     buttonText="Login with Google"
                     onSuccess={this.responseGoogle}
                     onFailure={this.responseGoogle}

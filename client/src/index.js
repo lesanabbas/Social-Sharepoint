@@ -1,14 +1,10 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom'
-import MainRouter from './MainRouter'
-import ScrollToTop from './ScrollToTop';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-const App = () => {
-  <BrowserRouter>
-    <ScrollToTop>
-      <MainRouter />
-    </ScrollToTop>
-  </BrowserRouter>;
-}
-
-export default App;
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
